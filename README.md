@@ -21,7 +21,7 @@
 
 ## English
 
-Experimental UEFI build for Raspberry Pi 5, tested with VMware ESXi Arm and a Waveshare PoE HAT (F) Rev1.2 with one three-wire fan.
+UEFI firmware for Raspberry Pi 5, tested with VMware ESXi Arm and a Waveshare PoE HAT (F) Rev1.2 with one three-wire fan.
 
 ### Key changes
 
@@ -43,6 +43,7 @@ No D0 image is currently published. A D0-labelled artifact will be added only af
 | Keyboard and boot-disk operation | **Verified** | Tested UEFI/ESXi boot media |
 | ESXi Arm boot | **Verified** | ESXi Arm 8.0U3c build 24449057 |
 | Automatic fan control | **Verified** | Waveshare PoE HAT (F) Rev1.2 |
+| ESXi automatic fan control | **Verified** | `FANC` / `RPI0003` with rpitherm 0.5.0-3 |
 | Manual fan speeds | **Verified** | Distinguishable PWM speed levels |
 | Manual Persistent at 100% | **Verified** | Fan remains active after ESXi startup |
 | microSD access from UEFI | **Verified** | Card is exposed as a filesystem after the BCM2712 CMD6 workaround |
@@ -61,6 +62,10 @@ The firmware exposes the hardware resources required by the ESXi driver. Packet 
 - exposes the GEM controller as `RPI0001`, with one `RP1_ETH_BASE` MMIO range of `0x10000` bytes and an interrupt;
 - exposes the diagnostic GPIO range as a separate `RPI0002` device, with an `RP1_IO_BANK0_BASE` range of `0x30000` bytes;
 - keeps the fan implementation isolated from Ethernet: it does not modify Ethernet ACPI, Ethernet clocks, GPIO32, GEM, or PHY logic.
+
+The firmware also exposes `FANC` / `RPI0003` with narrow mailbox, clock, PWM1,
+GPIO45 and pad resources for the ESXi `rpitherm` driver. This device has no
+interrupt resource and does not expose the shared RP1 interrupt 261.
 
 This is the ACPI foundation used by the experimental RP1 Ethernet driver for ESXi, not a universal UEFI network driver. Sustained RX and TX were verified with the separate `RP1_GEM` ESXi driver; that result is specific to the tested firmware, driver and host configuration.
 
@@ -106,7 +111,7 @@ Settings are written when UEFI reaches `ReadyToBoot`. After changing a setting, 
 
 #### BIOS identification
 
-- changes the SMBIOS Type 0 BIOS version from a technical Git-derived value to the human-readable `RPI 5 UEFI 0.2.1 [Soulveig Edition]`;
+- changes the SMBIOS Type 0 BIOS version from a technical Git-derived value to the human-readable `RPI 5 UEFI 0.2.2 [Soulveig Edition]`;
 - makes the release version the single source for this field, so future builds automatically use `RPI 5 UEFI <version> [Soulveig Edition]`;
 - lets ESXi identify the installed Soulveig Edition firmware and its release directly in the host summary, without relying on a Git tag, commit hash, or temporary build label.
 
@@ -160,7 +165,7 @@ The original documentation in this repository is licensed under [`BSD-2-Clause-P
 
 ## Русский
 
-Экспериментальная сборка UEFI для Raspberry Pi 5, проверенная с VMware ESXi Arm и Waveshare PoE HAT (F) Rev1.2 с одним трёхпроводным вентилятором.
+Прошивка UEFI для Raspberry Pi 5, проверенная с VMware ESXi Arm и Waveshare PoE HAT (F) Rev1.2 с одним трёхпроводным вентилятором.
 
 ### Ключевые изменения
 
@@ -182,6 +187,7 @@ The original documentation in this repository is licensed under [`BSD-2-Clause-P
 | Клавиатура и загрузочный диск | **Проверено** | Проверенный носитель UEFI/ESXi |
 | Загрузка ESXi Arm | **Проверено** | ESXi Arm 8.0U3c build 24449057 |
 | Автоматическое управление вентилятором | **Проверено** | Waveshare PoE HAT (F) Rev1.2 |
+| Автоматическое управление из ESXi | **Проверено** | `FANC` / `RPI0003` с rpitherm 0.5.0-3 |
 | Ручные скорости | **Проверено** | Различимые уровни PWM |
 | Manual Persistent 100% | **Проверено** | Вентилятор продолжает работать после запуска ESXi |
 | Доступ к microSD из UEFI | **Проверено** | Карта публикуется как файловая система после обхода CMD6 для BCM2712 |
@@ -200,6 +206,10 @@ The original documentation in this repository is licensed under [`BSD-2-Clause-P
 - контроллер GEM публикуется как `RPI0001`: один MMIO-диапазон `RP1_ETH_BASE` размером `0x10000` и прерывание;
 - диагностический GPIO-диапазон вынесен в отдельное устройство `RPI0002`: `RP1_IO_BANK0_BASE` размером `0x30000`;
 - реализация вентилятора изолирована от Ethernet: она не меняет ACPI-сетевую часть, тактирование Ethernet, GPIO32, GEM или PHY.
+
+Прошивка также публикует `FANC` / `RPI0003` с узкими ресурсами mailbox,
+тактирования, PWM1, GPIO45 и pad для драйвера ESXi `rpitherm`. Устройство не
+имеет ресурса прерывания и не публикует общий RP1 IRQ 261.
 
 Это ACPI-основа экспериментального драйвера RP1 Ethernet для ESXi, а не универсальный сетевой драйвер UEFI. Постоянные RX и TX проверены с отдельным драйвером ESXi `RP1_GEM`; результат относится к проверенному сочетанию прошивки, драйвера и хоста.
 
@@ -245,7 +255,7 @@ The original documentation in this repository is licensed under [`BSD-2-Clause-P
 
 #### Идентификация BIOS
 
-- техническое значение версии из Git заменено в SMBIOS Type 0 на понятную строку `RPI 5 UEFI 0.2.1 [Soulveig Edition]`;
+- техническое значение версии из Git заменено в SMBIOS Type 0 на понятную строку `RPI 5 UEFI 0.2.2 [Soulveig Edition]`;
 - версия релиза стала единым источником для этого поля, поэтому следующие сборки автоматически получат строку `RPI 5 UEFI <версия> [Soulveig Edition]`;
 - ESXi теперь показывает установленную редакцию Soulveig Edition и её релиз прямо в сводке хоста — без Git-тега, хеша коммита или временного имени сборки.
 
@@ -273,7 +283,7 @@ The original documentation in this repository is licensed under [`BSD-2-Clause-P
 3. Проверьте SHA-256 по файлу [`SHA256SUMS`](SHA256SUMS).
 4. При первом запуске проверьте клавиатуру, загрузочный диск и температуру до длительного теста ESXi.
 
-Всегда держите рабочий образ для отката. Сборка экспериментальная и не предназначена для установки без физического доступа к Raspberry Pi.
+Всегда держите рабочий образ для отката и физический доступ к Raspberry Pi.
 
 ### Релизы
 
