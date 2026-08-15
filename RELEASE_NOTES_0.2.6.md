@@ -9,7 +9,6 @@
 - Updated the SMBIOS and main-screen release string to `RPI 5 UEFI 0.2.6 [Soulveig Edition]`.
 - Retained the EDK2 2.11 source and Raspberry Pi 5 platform configuration used by 0.2.4.
 - Retained the UEFI Shell protocol at its actual version 2.2.
-- Retained fan control, ESXi ACPI devices, the microSD CMD6 workaround, NVRAM persistence, SoC temperature and board identification.
 
 ## Русский
 
@@ -20,4 +19,3 @@
 - Строка версии SMBIOS и главного экрана обновлена до `RPI 5 UEFI 0.2.6 [Soulveig Edition]`.
 - Сохранены исходная база EDK2 2.11 и конфигурация платформы Raspberry Pi 5 из версии 0.2.4.
 - Протокол UEFI Shell сохранён в его фактической версии 2.2.
-- Сохранены управление вентилятором, ACPI-устройства ESXi, обход ошибки microSD CMD6, сохранение NVRAM, температура SoC и идентификация платы.
