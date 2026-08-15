@@ -9,6 +9,7 @@
 - Shows the Raspberry Pi serial number and bootloader EEPROM build date; unavailable values are displayed as `N/A`.
 - Shows `BCM2712 (ARM Cortex-A76)`, CPU clock and RAM capacity in GB on one line.
 - Shows Soulveig Edition, UEFI specification and Shell versions on one line.
+- Shows `SoC Temperature: N/A` when the temperature mailbox request is unavailable.
 - Retains SoC temperature display and the existing fan, ACPI, microSD CMD6 and NVRAM fixes from 0.2.2.
 - Uses automatic Device Tree selection. The release package does not force a D0 DTB and is not D0-only.
 
@@ -28,6 +29,7 @@
 - Показываются серийный номер Raspberry Pi и дата сборки bootloader EEPROM; недоступные значения выводятся как `N/A`.
 - В одной строке показываются `BCM2712 (ARM Cortex-A76)`, частота CPU и объём RAM в GB.
 - В одной строке показываются Soulveig Edition, версия спецификации UEFI и версия Shell.
+- Если mailbox-запрос температуры недоступен, выводится `SoC Temperature: N/A`.
 - Сохранены отображение температуры SoC, управление вентилятором, ACPI, исправление microSD CMD6 и сохранение NVRAM из версии 0.2.2.
 - Используется автоматический выбор Device Tree. Пакет не принуждает D0 DTB и не предназначен только для D0.
 

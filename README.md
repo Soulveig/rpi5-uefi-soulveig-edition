@@ -129,7 +129,7 @@ Settings are written when UEFI reaches `ReadyToBoot`. After changing a setting, 
 - converts the returned millidegree-Celsius value to one decimal place, for example `38.9 °C`;
 - reads the sensor when the main screen is opened. The value is not updated continuously while that screen remains open;
 - refreshes the displayed value after entering another menu and returning to the main screen;
-- displays `SoC Temperature: unavailable` if the firmware mailbox request cannot be completed.
+- displays `SoC Temperature: N/A` if the firmware mailbox request cannot be completed.
 
 ### Verified configuration
 
@@ -282,7 +282,7 @@ The original documentation in this repository is licensed under [`BSD-2-Clause-P
 - полученное значение в тысячных долях градуса Цельсия преобразуется до одного знака после запятой, например `38.9 °C`;
 - датчик опрашивается при открытии главного экрана. Пока экран остаётся открытым, значение непрерывно не обновляется;
 - после перехода в другое меню и возврата на главный экран температура считывается заново;
-- если mailbox-запрос выполнить не удалось, выводится `SoC Temperature: unavailable`.
+- если mailbox-запрос выполнить не удалось, выводится `SoC Temperature: N/A`.
 
 ### Проверенная конфигурация
 
