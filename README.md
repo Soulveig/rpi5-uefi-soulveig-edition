@@ -138,7 +138,8 @@ Settings are written when UEFI reaches `ReadyToBoot`. After changing a setting, 
 - UEFI and ESXi Arm boot;
 - Automatic mode changes fan speed;
 - Manual mode produces distinguishable speed levels;
-- ESXi boots with Manual Persistent set to 100%, and the fan continues running.
+- ESXi boots with Manual Persistent set to 100%, and the fan continues running;
+- Automatic mode works with the ESXi [temperature driver](https://github.com/Soulveig/esxi-driver-temperature-rpi5).
 
 ### Installation
 
@@ -290,7 +291,8 @@ The original documentation in this repository is licensed under [`BSD-2-Clause-P
 - запуск UEFI и ESXi Arm;
 - Automatic изменяет скорость вентилятора;
 - Manual даёт различимые уровни скорости;
-- ESXi загружается при Manual Persistent 100%, вентилятор продолжает работать.
+- ESXi загружается при Manual Persistent 100%, вентилятор продолжает работать;
+- автоматический режим работает с [драйвером температуры](https://github.com/Soulveig/esxi-driver-temperature-rpi5).
 
 ### Установка
 
