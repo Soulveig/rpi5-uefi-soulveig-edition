@@ -32,10 +32,11 @@ UEFI firmware for Raspberry Pi 5, tested with VMware ESXi Arm and a Waveshare Po
 5. **SoC temperature on the UEFI main screen**
 6. **Board revision, SoC stepping, serial number, EEPROM date, CPU, RAM and UEFI/Shell versions on the main screen**
 7. **EDK2 updated to the UEFI 2.11 specification baseline**
+8. **Release build tools updated to GCC 15.3.Rel1, Python 3.14.7 and GNU Make 4.4.1**
 
 Ready-to-use image: [`firmware/RPI_EFI.fd`](firmware/RPI_EFI.fd). GitHub Releases use the same required filename: `RPI_EFI.fd`.
 
-Version 0.2.4 uses automatic Device Tree selection and has been boot-tested on Raspberry Pi 5 boards reporting both BCM2712 C1 and D0. It is not a D0-only image. The firmware now reports UEFI 2.11; the UEFI Shell protocol remains 2.2.
+Version 0.2.6 uses automatic Device Tree selection and has been boot-tested on Raspberry Pi 5 boards reporting both BCM2712 C1 and D0. It is not a D0-only image. The firmware reports UEFI 2.11; the UEFI Shell protocol remains 2.2.
 
 ### Validation status
 
@@ -113,7 +114,7 @@ Settings are written when UEFI reaches `ReadyToBoot`. After changing a setting, 
 
 #### BIOS identification
 
-- changes the SMBIOS Type 0 BIOS version from a technical Git-derived value to the human-readable `RPI 5 UEFI 0.2.4 [Soulveig Edition]`;
+- changes the SMBIOS Type 0 BIOS version from a technical Git-derived value to the human-readable `RPI 5 UEFI 0.2.6 [Soulveig Edition]`;
 - makes the release version the single source for this field, so future builds automatically use `RPI 5 UEFI <version> [Soulveig Edition]`.
 
 #### Board identification banner
@@ -165,7 +166,7 @@ The build is based on the following branches and pinned commits:
 - [NumberOneGit/edk2-platforms, branch `rpi5-dev`](https://github.com/NumberOneGit/edk2-platforms/tree/rpi5-dev) — [`5654030569418c46e5a46066c495d4fad852b4f8`](https://github.com/NumberOneGit/edk2-platforms/commit/5654030569418c46e5a46066c495d4fad852b4f8);
 - [tianocore/edk2-non-osi, branch `master`](https://github.com/tianocore/edk2-non-osi/tree/master) — [`1f4d7849f2344aa770f4de5224188654ae5b0e50`](https://github.com/tianocore/edk2-non-osi/commit/1f4d7849f2344aa770f4de5224188654ae5b0e50).
 
-Compiler used for the release build: Arm GNU Toolchain GCC 15.2.Rel1 for macOS.
+Release build tools: Arm GNU Toolchain GCC 15.3.Rel1, Python 3.14.7 and GNU Make 4.4.1 for macOS.
 
 ### Licenses
 
@@ -186,10 +187,11 @@ The original documentation in this repository is licensed under [`BSD-2-Clause-P
 5. **Температура SoC на главном экране UEFI**
 6. **Ревизия платы, stepping SoC, серийный номер, дата EEPROM, CPU, RAM и версии UEFI/Shell на главном экране**
 7. **EDK2 обновлён до основы спецификации UEFI 2.11**
+8. **Инструменты релизной сборки обновлены до GCC 15.3.Rel1, Python 3.14.7 и GNU Make 4.4.1**
 
 Готовый образ: [`firmware/RPI_EFI.fd`](firmware/RPI_EFI.fd). В GitHub Releases используется то же обязательное имя: `RPI_EFI.fd`.
 
-Версия 0.2.4 использует автоматический выбор Device Tree и проверена загрузкой на Raspberry Pi 5, которые определяются как BCM2712 C1 и D0. Это не отдельный образ только для D0. Прошивка теперь сообщает UEFI 2.11; протокол UEFI Shell остаётся версии 2.2.
+Версия 0.2.6 использует автоматический выбор Device Tree и проверена загрузкой на Raspberry Pi 5, которые определяются как BCM2712 C1 и D0. Это не отдельный образ только для D0. Прошивка сообщает UEFI 2.11; протокол UEFI Shell остаётся версии 2.2.
 
 ### Статус проверки
 
@@ -267,7 +269,7 @@ The original documentation in this repository is licensed under [`BSD-2-Clause-P
 
 #### Идентификация BIOS
 
-- техническое значение версии из Git заменено в SMBIOS Type 0 на понятную строку `RPI 5 UEFI 0.2.4 [Soulveig Edition]`;
+- техническое значение версии из Git заменено в SMBIOS Type 0 на понятную строку `RPI 5 UEFI 0.2.6 [Soulveig Edition]`;
 - версия релиза стала единым источником для этого поля, поэтому следующие сборки автоматически получат строку `RPI 5 UEFI <версия> [Soulveig Edition]`.
 
 #### Строки идентификации платы
@@ -319,7 +321,7 @@ The original documentation in this repository is licensed under [`BSD-2-Clause-P
 - [NumberOneGit/edk2-platforms, ветка `rpi5-dev`](https://github.com/NumberOneGit/edk2-platforms/tree/rpi5-dev) — [`5654030569418c46e5a46066c495d4fad852b4f8`](https://github.com/NumberOneGit/edk2-platforms/commit/5654030569418c46e5a46066c495d4fad852b4f8);
 - [tianocore/edk2-non-osi, ветка `master`](https://github.com/tianocore/edk2-non-osi/tree/master) — [`1f4d7849f2344aa770f4de5224188654ae5b0e50`](https://github.com/tianocore/edk2-non-osi/commit/1f4d7849f2344aa770f4de5224188654ae5b0e50).
 
-Компилятор релизной сборки: Arm GNU Toolchain GCC 15.2.Rel1 для macOS.
+Инструменты релизной сборки: Arm GNU Toolchain GCC 15.3.Rel1, Python 3.14.7 и GNU Make 4.4.1 для macOS.
 
 ### Лицензии
 
