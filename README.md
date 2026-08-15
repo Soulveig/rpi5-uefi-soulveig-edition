@@ -19,6 +19,10 @@
   </tr>
 </table>
 
+![Raspberry Pi 5 UEFI 0.2.3 board, SoC, serial, EEPROM, CPU, RAM, firmware and temperature identification](docs/images/uefi-v0.2.3-board-identification.png)
+
+*UEFI 0.2.3 hardware identification banner / Строки идентификации оборудования UEFI 0.2.3*
+
 ## English
 
 UEFI firmware for Raspberry Pi 5, tested with VMware ESXi Arm and a Waveshare PoE HAT (F) Rev1.2 with one three-wire fan.
@@ -30,23 +34,24 @@ UEFI firmware for Raspberry Pi 5, tested with VMware ESXi Arm and a Waveshare Po
 3. **UEFI microSD Card CRC Error fix**
 4. **Release-aware SMBIOS BIOS version**
 5. **SoC temperature on the UEFI main screen**
+6. **Board revision, SoC stepping, serial number, EEPROM date, CPU, RAM and UEFI/Shell versions on the main screen**
 
 Ready-to-use image: [`firmware/RPI_EFI.fd`](firmware/RPI_EFI.fd). GitHub Releases use the same required filename: `RPI_EFI.fd`.
 
-No D0 image is currently published. A D0-labelled artifact will be added only after a separate build and hardware boot test.
+Version 0.2.3 uses automatic Device Tree selection and has been boot-tested on Raspberry Pi 5 boards reporting both BCM2712 C1 and D0. It is not a D0-only image.
 
 ### Validation status
 
 | Capability | Status | Scope |
 |---|---|---|
-| UEFI boot | **Verified** | Raspberry Pi 5, non-D0 |
+| UEFI boot | **Verified** | Raspberry Pi 5 boards reporting BCM2712 C1 and D0 |
 | Keyboard and boot-disk operation | **Verified** | Tested UEFI/ESXi boot media |
 | ESXi Arm boot | **Verified** | ESXi Arm 8.0U3c build 24449057 |
 | Automatic fan control | **Verified** | Waveshare PoE HAT (F) Rev1.2 |
 | ESXi automatic fan control | **Verified** | `FANC` / `RPI0003` with rpitherm 0.5.0-3 |
 | Manual fan speeds | **Verified** | Distinguishable PWM speed levels |
 | Manual Persistent at 100% | **Verified** | Fan remains active after ESXi startup |
-| microSD access from UEFI | **Verified** | Card is exposed as a filesystem after the BCM2712 CMD6 workaround |
+| microSD access from UEFI | **Verified with cold-boot caveat** | C1 detected the card immediately in the initial test; two D0 boards required one warm reset |
 | UEFI setting persistence | **Verified** | Settings survive reboot and complete power removal after a normal reset/boot path |
 | SoC temperature display | **Verified** | BCM2712 temperature is shown on the UEFI main screen and refreshes when the screen is reopened |
 | RP1 Ethernet ACPI resources | **Verified** | `RPI0001` GEM plus separate `RPI0002` GPIO diagnostics |
@@ -111,9 +116,17 @@ Settings are written when UEFI reaches `ReadyToBoot`. After changing a setting, 
 
 #### BIOS identification
 
-- changes the SMBIOS Type 0 BIOS version from a technical Git-derived value to the human-readable `RPI 5 UEFI 0.2.2 [Soulveig Edition]`;
+- changes the SMBIOS Type 0 BIOS version from a technical Git-derived value to the human-readable `RPI 5 UEFI 0.2.3 [Soulveig Edition]`;
 - makes the release version the single source for this field, so future builds automatically use `RPI 5 UEFI <version> [Soulveig Edition]`;
 - lets ESXi identify the installed Soulveig Edition firmware and its release directly in the host summary, without relying on a Git tag, commit hash, or temporary build label.
+
+#### Board identification banner
+
+- shows the PCB revision and full board revision code;
+- reports the C1/D0 stepping from the compatible strings in the automatically selected Device Tree;
+- shows the board serial number and bootloader EEPROM build date, using `N/A` when unavailable;
+- combines the BCM2712 CPU model, clock and RAM capacity in GB;
+- shows the Soulveig Edition, UEFI specification and Shell versions on one line.
 
 #### SoC temperature
 
@@ -125,7 +138,7 @@ Settings are written when UEFI reaches `ReadyToBoot`. After changing a setting, 
 
 ### Verified configuration
 
-- Raspberry Pi 5 (non-D0);
+- three Raspberry Pi 5 boards: one reporting BCM2712 C1 and two reporting D0 with automatic Device Tree selection;
 - Waveshare PoE HAT (F) Rev1.2 with one three-wire fan;
 - UEFI and ESXi Arm boot;
 - Automatic mode changes fan speed;
@@ -174,23 +187,24 @@ The original documentation in this repository is licensed under [`BSD-2-Clause-P
 3. **Исправление CRC Error карты microSD в UEFI**
 4. **Версия BIOS в SMBIOS, соответствующая релизу**
 5. **Температура SoC на главном экране UEFI**
+6. **Ревизия платы, stepping SoC, серийный номер, дата EEPROM, CPU, RAM и версии UEFI/Shell на главном экране**
 
 Готовый образ: [`firmware/RPI_EFI.fd`](firmware/RPI_EFI.fd). В GitHub Releases используется то же обязательное имя: `RPI_EFI.fd`.
 
-Образ D0 пока не публикуется. Файл с маркировкой D0 будет добавлен только после отдельной сборки и аппаратной проверки загрузки.
+Версия 0.2.3 использует автоматический выбор Device Tree и проверена загрузкой на Raspberry Pi 5, которые определяются как BCM2712 C1 и D0. Это не отдельный образ только для D0.
 
 ### Статус проверки
 
 | Возможность | Статус | Область проверки |
 |---|---|---|
-| Загрузка UEFI | **Проверено** | Raspberry Pi 5, не D0 |
+| Загрузка UEFI | **Проверено** | Raspberry Pi 5, определяющиеся как BCM2712 C1 и D0 |
 | Клавиатура и загрузочный диск | **Проверено** | Проверенный носитель UEFI/ESXi |
 | Загрузка ESXi Arm | **Проверено** | ESXi Arm 8.0U3c build 24449057 |
 | Автоматическое управление вентилятором | **Проверено** | Waveshare PoE HAT (F) Rev1.2 |
 | Автоматическое управление из ESXi | **Проверено** | `FANC` / `RPI0003` с rpitherm 0.5.0-3 |
 | Ручные скорости | **Проверено** | Различимые уровни PWM |
 | Manual Persistent 100% | **Проверено** | Вентилятор продолжает работать после запуска ESXi |
-| Доступ к microSD из UEFI | **Проверено** | Карта публикуется как файловая система после обхода CMD6 для BCM2712 |
+| Доступ к microSD из UEFI | **Проверено с оговоркой для cold boot** | На C1 карта появилась сразу в первом тесте; на двух D0 потребовался один warm reset |
 | Сохранение настроек UEFI | **Проверено** | Настройки переживают перезагрузку и полное снятие питания после штатного reset/boot |
 | Отображение температуры SoC | **Проверено** | Температура BCM2712 показана на главном экране UEFI и обновляется при повторном открытии экрана |
 | ACPI-ресурсы RP1 Ethernet | **Проверено** | GEM `RPI0001` и отдельная диагностика GPIO `RPI0002` |
@@ -255,9 +269,17 @@ The original documentation in this repository is licensed under [`BSD-2-Clause-P
 
 #### Идентификация BIOS
 
-- техническое значение версии из Git заменено в SMBIOS Type 0 на понятную строку `RPI 5 UEFI 0.2.2 [Soulveig Edition]`;
+- техническое значение версии из Git заменено в SMBIOS Type 0 на понятную строку `RPI 5 UEFI 0.2.3 [Soulveig Edition]`;
 - версия релиза стала единым источником для этого поля, поэтому следующие сборки автоматически получат строку `RPI 5 UEFI <версия> [Soulveig Edition]`;
 - ESXi теперь показывает установленную редакцию Soulveig Edition и её релиз прямо в сводке хоста — без Git-тега, хеша коммита или временного имени сборки.
+
+#### Строки идентификации платы
+
+- показываются PCB revision и полный revision code платы;
+- stepping C1/D0 определяется по compatible-строкам автоматически выбранного Device Tree;
+- выводятся серийный номер платы и дата сборки bootloader EEPROM, при недоступности используется `N/A`;
+- модель BCM2712, частота CPU и объём RAM в GB объединены в одной строке;
+- редакция Soulveig Edition, версия спецификации UEFI и Shell показаны в одной строке.
 
 #### Температура SoC
 
@@ -269,7 +291,7 @@ The original documentation in this repository is licensed under [`BSD-2-Clause-P
 
 ### Проверенная конфигурация
 
-- Raspberry Pi 5 (не D0);
+- три Raspberry Pi 5: одна определяется как BCM2712 C1, две как D0 при автоматическом выборе Device Tree;
 - Waveshare PoE HAT (F) Rev1.2, один трёхпроводный вентилятор;
 - запуск UEFI и ESXi Arm;
 - Automatic изменяет скорость вентилятора;
