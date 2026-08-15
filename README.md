@@ -9,7 +9,7 @@
     <td width="25%"><img src="docs/images/uefi-raspberry-pi-configuration.jpg" alt="Raspberry Pi Configuration menu with the Cooling Fan entry"></td>
     <td width="25%"><img src="docs/images/uefi-fan-control-modes.jpg" alt="UEFI Cooling Fan mode selection"></td>
     <td width="25%"><img src="docs/images/uefi-manual-persistent-warning.jpg" alt="UEFI Manual Persistent fan mode warning"></td>
-    <td width="25%"><img src="docs/images/uefi-soc-temperature.png" alt="SoC Temperature on the UEFI main screen"></td>
+    <td width="25%"><img src="docs/images/uefi-v0.2.3-board-identification.png" alt="SoC temperature and hardware identification on the UEFI 0.2.3 main screen"></td>
   </tr>
   <tr>
     <td align="center">Cooling Fan menu / Меню Cooling Fan</td>
@@ -18,10 +18,6 @@
     <td align="center">SoC temperature / Температура SoC</td>
   </tr>
 </table>
-
-![Raspberry Pi 5 UEFI 0.2.3 board, SoC, serial, EEPROM, CPU, RAM, firmware and temperature identification](docs/images/uefi-v0.2.3-board-identification.png)
-
-*UEFI 0.2.3 hardware identification banner / Строки идентификации оборудования UEFI 0.2.3*
 
 ## English
 
