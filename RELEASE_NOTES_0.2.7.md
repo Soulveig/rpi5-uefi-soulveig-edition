@@ -14,15 +14,6 @@
 - Removed the experimental video-resolution and scaling controls.
 - Set the displayed release name to `UEFI v0.2.7 [Soulveig Edition]`.
 
-### Hardware validation
-
-- UEFI video output and menu operation: verified.
-- microSD visibility in Boot Manager: verified.
-- Writable `RPI_EFI.fd` variable backing store: verified.
-- Settings retained after reset: verified.
-- Fan operation after reset: verified.
-- Five-second SoC temperature refresh: verified.
-
 ## Русский
 
 ### Изменения относительно 0.2.6
@@ -36,12 +27,3 @@
 - Возвращена верхняя панель с ревизией платы, stepping SoC, серийным номером, датой EEPROM и версиями UEFI/Shell.
 - Экспериментальные настройки разрешения и масштабирования видео удалены.
 - Отображаемое имя релиза изменено на `UEFI v0.2.7 [Soulveig Edition]`.
-
-### Проверка на оборудовании
-
-- Видеовывод UEFI и работа меню: проверено.
-- Видимость microSD в Boot Manager: проверено.
-- Доступность backing-файла `RPI_EFI.fd` для записи: проверено.
-- Сохранение настроек после reset: проверено.
-- Работа вентилятора после reset: проверено.
-- Обновление температуры SoC каждые 5 секунд: проверено.
