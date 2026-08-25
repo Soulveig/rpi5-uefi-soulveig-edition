@@ -36,7 +36,7 @@ UEFI firmware for Raspberry Pi 5, tested with VMware ESXi Arm and a Waveshare Po
 
 Ready-to-use image: [`firmware/RPI_EFI.fd`](firmware/RPI_EFI.fd). GitHub Releases use the same required filename: `RPI_EFI.fd`.
 
-Version 0.2.6 uses automatic Device Tree selection and has been boot-tested on Raspberry Pi 5 boards reporting both BCM2712 C1 and D0. It is not a D0-only image. The firmware reports UEFI 2.11; the UEFI Shell protocol remains 2.2.
+Version 0.2.7 uses automatic Device Tree selection and has been boot-tested on Raspberry Pi 5 boards reporting both BCM2712 C1 and D0. It is not a D0-only image. The firmware reports UEFI 2.11; the UEFI Shell protocol remains 2.2.
 
 ### Validation status
 
@@ -51,7 +51,7 @@ Version 0.2.6 uses automatic Device Tree selection and has been boot-tested on R
 | Manual Persistent at 100% | **Verified** | Fan remains active after ESXi startup |
 | microSD access from UEFI | **Verified with cold-boot caveat** | C1 detected the card immediately in the initial test; two D0 boards required one warm reset |
 | UEFI setting persistence | **Verified** | Settings survive reboot and complete power removal after a normal reset/boot path |
-| SoC temperature display | **Verified** | BCM2712 temperature is shown on the UEFI main screen and refreshes when the screen is reopened |
+| SoC temperature display | **Verified** | BCM2712 temperature refreshes every 5 seconds without changing menu focus |
 | RP1 Ethernet ACPI resources | **Verified** | `RPI0001` GEM plus separate `RPI0002` GPIO diagnostics |
 | Sustained RX and TX | **Verified** | Separate experimental `RP1_GEM` ESXi driver on this ACPI layout |
 
@@ -107,15 +107,16 @@ In Automatic and standard Manual modes, the firmware restores the saved PWM1 clo
 #### microSD card CRC fix
 
 - fixes a spurious response CRC/index error reported by the BCM2712 SDHCI controller for SD `CMD6` after entering 4-bit mode;
+- synchronizes the BCM2712 SDHCI and external signaling path during 3.3 V/1.8 V transitions, restoring microSD enumeration on the `edk2-stable202608` base;
 - applies the workaround only to `CMD6`, while retaining data CRC validation and normal response validation for all other commands;
 - makes the boot microSD available in UEFI so the variable service can update the NVRAM area inside `RPI_EFI.fd` and preserve UEFI settings across reboots and power cycles.
 
-Settings are written when UEFI reaches `ReadyToBoot`. After changing a setting, continue booting or reset once before removing power.
+Settings are committed to the writable `RPI_EFI.fd` backing file and were verified across reset together with microSD visibility in Boot Manager.
 
 #### BIOS identification
 
-- changes the SMBIOS Type 0 BIOS version from a technical Git-derived value to the human-readable `RPI 5 UEFI 0.2.6 [Soulveig Edition]`;
-- makes the release version the single source for this field, so future builds automatically use `RPI 5 UEFI <version> [Soulveig Edition]`.
+- changes the SMBIOS Type 0 BIOS version from a technical Git-derived value to the human-readable `UEFI v0.2.7 [Soulveig Edition]`;
+- makes the release version the single source for this field, so future builds automatically use `UEFI v<version> [Soulveig Edition]`.
 
 #### Board identification banner
 
@@ -129,8 +130,8 @@ Settings are written when UEFI reaches `ReadyToBoot`. After changing a setting, 
 
 - shows `SoC Temperature` on the UEFI main screen using the Raspberry Pi firmware mailbox temperature property for sensor ID 0;
 - converts the returned millidegree-Celsius value to one decimal place, for example `38.9 °C`;
-- reads the sensor when the main screen is opened. The value is not updated continuously while that screen remains open;
-- refreshes the displayed value after entering another menu and returning to the main screen;
+- refreshes the sensor and displayed value every 5 seconds while the main screen remains open;
+- preserves the current menu focus during temperature refresh;
 - displays `SoC Temperature: N/A` if the firmware mailbox request cannot be completed.
 
 ### Verified configuration
@@ -191,7 +192,7 @@ The original documentation in this repository is licensed under [`BSD-2-Clause-P
 
 Готовый образ: [`firmware/RPI_EFI.fd`](firmware/RPI_EFI.fd). В GitHub Releases используется то же обязательное имя: `RPI_EFI.fd`.
 
-Версия 0.2.6 использует автоматический выбор Device Tree и проверена загрузкой на Raspberry Pi 5, которые определяются как BCM2712 C1 и D0. Это не отдельный образ только для D0. Прошивка сообщает UEFI 2.11; протокол UEFI Shell остаётся версии 2.2.
+Версия 0.2.7 использует автоматический выбор Device Tree и проверена загрузкой на Raspberry Pi 5, которые определяются как BCM2712 C1 и D0. Это не отдельный образ только для D0. Прошивка сообщает UEFI 2.11; протокол UEFI Shell остаётся версии 2.2.
 
 ### Статус проверки
 
@@ -206,7 +207,7 @@ The original documentation in this repository is licensed under [`BSD-2-Clause-P
 | Manual Persistent 100% | **Проверено** | Вентилятор продолжает работать после запуска ESXi |
 | Доступ к microSD из UEFI | **Проверено с оговоркой для cold boot** | На C1 карта появилась сразу в первом тесте; на двух D0 потребовался один warm reset |
 | Сохранение настроек UEFI | **Проверено** | Настройки переживают перезагрузку и полное снятие питания после штатного reset/boot |
-| Отображение температуры SoC | **Проверено** | Температура BCM2712 показана на главном экране UEFI и обновляется при повторном открытии экрана |
+| Отображение температуры SoC | **Проверено** | Температура BCM2712 обновляется каждые 5 секунд без сброса фокуса меню |
 | ACPI-ресурсы RP1 Ethernet | **Проверено** | GEM `RPI0001` и отдельная диагностика GPIO `RPI0002` |
 | Постоянные RX и TX | **Проверено** | Отдельный экспериментальный драйвер ESXi `RP1_GEM` на этой ACPI-разметке |
 
@@ -262,15 +263,16 @@ The original documentation in this repository is licensed under [`BSD-2-Clause-P
 #### Исправление CRC карты microSD
 
 - исправлена ложная ошибка CRC/index ответа, которую контроллер SDHCI в BCM2712 выдавал для SD-команды `CMD6` после перехода в четырёхбитный режим;
+- синхронизировано переключение SDHCI BCM2712 и внешнего сигнального тракта между 3,3 В и 1,8 В, что вернуло обнаружение microSD на базе `edk2-stable202608`;
 - обход применяется только к `CMD6`, а проверка CRC данных и обычная проверка ответов всех остальных команд сохранены;
 - загрузочная microSD стала доступна в UEFI, благодаря чему служба переменных может обновлять область NVRAM внутри `RPI_EFI.fd` и сохранять настройки после перезагрузки и отключения питания.
 
-Настройки записываются на этапе `ReadyToBoot`. После изменения настройки продолжите загрузку или один раз выполните reset перед отключением питания.
+Настройки записываются в доступный для записи backing-файл `RPI_EFI.fd`; сохранение после reset и видимость microSD в Boot Manager подтверждены на оборудовании.
 
 #### Идентификация BIOS
 
-- техническое значение версии из Git заменено в SMBIOS Type 0 на понятную строку `RPI 5 UEFI 0.2.6 [Soulveig Edition]`;
-- версия релиза стала единым источником для этого поля, поэтому следующие сборки автоматически получат строку `RPI 5 UEFI <версия> [Soulveig Edition]`.
+- техническое значение версии из Git заменено в SMBIOS Type 0 на понятную строку `UEFI v0.2.7 [Soulveig Edition]`;
+- версия релиза стала единым источником для этого поля, поэтому следующие сборки автоматически получат строку `UEFI v<версия> [Soulveig Edition]`.
 
 #### Строки идентификации платы
 
@@ -284,8 +286,8 @@ The original documentation in this repository is licensed under [`BSD-2-Clause-P
 
 - значение `SoC Temperature` выводится на главном экране UEFI и получается через температурное свойство mailbox-прошивки Raspberry Pi для датчика с ID 0;
 - полученное значение в тысячных долях градуса Цельсия преобразуется до одного знака после запятой, например `38.9 °C`;
-- датчик опрашивается при открытии главного экрана. Пока экран остаётся открытым, значение непрерывно не обновляется;
-- после перехода в другое меню и возврата на главный экран температура считывается заново;
+- датчик и показание обновляются каждые 5 секунд, пока открыт главный экран;
+- при обновлении температуры сохраняется текущий фокус меню;
 - если mailbox-запрос выполнить не удалось, выводится `SoC Temperature: N/A`.
 
 ### Проверенная конфигурация
