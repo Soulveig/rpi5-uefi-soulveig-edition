@@ -1,4 +1,4 @@
-# Raspberry Pi 5 UEFI v0.2.7 [Soulveig Edition]
+# RPI 5 UEFI 0.2.7 [Soulveig Edition]
 
 ## English
 
