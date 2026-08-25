@@ -10,9 +10,6 @@
 - Retained the SD `CMD6` response CRC/index workaround, restoring microSD visibility in Boot Manager and writable access to `RPI_EFI.fd`.
 - Restored persistent UEFI settings and verified that fan settings survive reset.
 - Added SoC temperature refresh every 5 seconds without changing the selected menu focus.
-- Restored the board revision, SoC stepping, serial number, EEPROM date and UEFI/Shell information banner.
-- Removed the experimental video-resolution and scaling controls.
-- Set the displayed release name to `UEFI v0.2.7 [Soulveig Edition]`.
 
 ## Русский
 
@@ -24,6 +21,3 @@
 - Сохранён workaround CRC/индекса ответа SD `CMD6`, благодаря чему microSD снова видна в Boot Manager, а `RPI_EFI.fd` доступен для записи.
 - Восстановлено сохранение настроек UEFI; сохранение параметров вентилятора после reset подтверждено на оборудовании.
 - Температура SoC обновляется каждые 5 секунд без сброса выбранного пункта меню.
-- Возвращена верхняя панель с ревизией платы, stepping SoC, серийным номером, датой EEPROM и версиями UEFI/Shell.
-- Экспериментальные настройки разрешения и масштабирования видео удалены.
-- Отображаемое имя релиза изменено на `UEFI v0.2.7 [Soulveig Edition]`.
