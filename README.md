@@ -115,8 +115,8 @@ Settings are committed to the writable `RPI_EFI.fd` backing file and were verifi
 
 #### BIOS identification
 
-- changes the SMBIOS Type 0 BIOS version from a technical Git-derived value to the human-readable `UEFI v0.2.7 [Soulveig Edition]`;
-- makes the release version the single source for this field, so future builds automatically use `UEFI v<version> [Soulveig Edition]`.
+- changes the SMBIOS Type 0 BIOS version from a technical Git-derived value to the human-readable `RPI UEFI v0.2.7 [Soulveig Edition]`;
+- makes the release version the single source for this field, so future builds automatically use `RPI UEFI v<version> [Soulveig Edition]`.
 
 #### Board identification banner
 
@@ -271,8 +271,8 @@ The original documentation in this repository is licensed under [`BSD-2-Clause-P
 
 #### Идентификация BIOS
 
-- техническое значение версии из Git заменено в SMBIOS Type 0 на понятную строку `UEFI v0.2.7 [Soulveig Edition]`;
-- версия релиза стала единым источником для этого поля, поэтому следующие сборки автоматически получат строку `UEFI v<версия> [Soulveig Edition]`.
+- техническое значение версии из Git заменено в SMBIOS Type 0 на понятную строку `RPI UEFI v0.2.7 [Soulveig Edition]`;
+- версия релиза стала единым источником для этого поля, поэтому следующие сборки автоматически получат строку `RPI UEFI v<версия> [Soulveig Edition]`.
 
 #### Строки идентификации платы
 
