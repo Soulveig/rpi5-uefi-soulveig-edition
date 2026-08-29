@@ -8,7 +8,6 @@
   temperature and fan-control driver.
 - Exposes only the five narrow mailbox, clock, PWM1, GPIO45 and pad-control
   MMIO resources required by the driver; no shared RP1 interrupt is assigned.
-- Retains the verified factory board MAC handoff to the RP1 GEM SA1 registers.
 
 ### Verified on hardware
 
@@ -28,7 +27,6 @@
   температуры и вентилятора `rpitherm` для ESXi.
 - Опубликованы только пять узких MMIO-ресурсов mailbox, clock, PWM1, GPIO45 и
   управления pads; общее прерывание RP1 устройству не назначается.
-- Сохранена проверенная передача заводского MAC платы в регистры SA1 RP1 GEM.
 
 ### Проверено на реальном оборудовании
 
