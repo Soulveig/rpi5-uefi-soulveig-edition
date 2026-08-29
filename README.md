@@ -31,12 +31,12 @@ UEFI firmware for Raspberry Pi 5, tested with VMware ESXi Arm and a Waveshare Po
 4. **Release-aware SMBIOS BIOS version**
 5. **SoC temperature on the UEFI main screen**
 6. **Board revision, SoC stepping, serial number, EEPROM date, CPU, RAM and UEFI/Shell versions on the main screen**
-7. **EDK2 updated to the UEFI 2.11 specification baseline**
+7. **EDK2 updated to `edk2-stable202608` (reported UEFI level 2.70)**
 8. **Release build tools updated to GCC 15.3.Rel1, Python 3.14.7 and GNU Make 4.4.1**
 
 Ready-to-use image: [`firmware/RPI_EFI.fd`](firmware/RPI_EFI.fd). GitHub Releases use the same required filename: `RPI_EFI.fd`.
 
-Version 0.2.7 uses automatic Device Tree selection and has been boot-tested on Raspberry Pi 5 boards reporting both BCM2712 C1 and D0. It is not a D0-only image. The firmware reports UEFI 2.11; the UEFI Shell protocol remains 2.2.
+Version 0.2.8 retains the automatic Device Tree selection previously tested on Raspberry Pi 5 boards reporting both BCM2712 C1 and D0; it is not a D0-only image. The new GEM SA1 MAC handoff was verified on a D0 board with ESXi-Arm and the RP1 GEM v0.243 driver. The firmware reports UEFI 2.70; the UEFI Shell protocol remains 2.2.
 
 ### Validation status
 
@@ -53,6 +53,7 @@ Version 0.2.7 uses automatic Device Tree selection and has been boot-tested on R
 | UEFI setting persistence | **Verified** | Settings survive reboot and complete power removal after a normal reset/boot path |
 | SoC temperature display | **Verified** | BCM2712 temperature refreshes every 5 seconds without changing menu focus |
 | RP1 Ethernet ACPI resources | **Verified** | `RPI0001` GEM plus separate `RPI0002` GPIO diagnostics |
+| Factory Ethernet MAC handoff | **Verified** | Board MAC programmed into GEM SA1 for the ESXi RP1 GEM driver |
 | Sustained RX and TX | **Verified** | Separate experimental `RP1_GEM` ESXi driver on this ACPI layout |
 
 The firmware exposes the hardware resources required by the ESXi driver. Packet processing itself is implemented by the separate experimental ESXi driver, not by UEFI.
@@ -64,6 +65,7 @@ The firmware exposes the hardware resources required by the ESXi driver. Packet 
 - preserves the working RP1 Ethernet ACPI layout from the tested v0.8 build;
 - exposes the GEM controller as `RPI0001`, with one `RP1_ETH_BASE` MMIO range of `0x10000` bytes and an interrupt;
 - exposes the diagnostic GPIO range as a separate `RPI0002` device, with an `RP1_IO_BANK0_BASE` range of `0x30000` bytes;
+- reads the factory board MAC through the Raspberry Pi firmware protocol and programs it into GEM SA1 before ESXi starts;
 - keeps the fan implementation isolated from Ethernet: it does not modify Ethernet ACPI, Ethernet clocks, GPIO32, GEM, or PHY logic.
 
 The firmware also exposes `FANC` / `RPI0003` with narrow mailbox, clock, PWM1,
@@ -115,7 +117,7 @@ Settings are committed to the writable `RPI_EFI.fd` backing file and were verifi
 
 #### BIOS identification
 
-- changes the SMBIOS Type 0 BIOS version from a technical Git-derived value to the human-readable `RPI UEFI v0.2.7 [Soulveig Edition]`;
+- changes the SMBIOS Type 0 BIOS version from a technical Git-derived value to the human-readable `RPI UEFI v0.2.8 [Soulveig Edition]`;
 - makes the release version the single source for this field, so future builds automatically use `RPI UEFI v<version> [Soulveig Edition]`.
 
 #### Board identification banner
@@ -187,12 +189,12 @@ The original documentation in this repository is licensed under [`BSD-2-Clause-P
 4. **Версия BIOS в SMBIOS, соответствующая релизу**
 5. **Температура SoC на главном экране UEFI**
 6. **Ревизия платы, stepping SoC, серийный номер, дата EEPROM, CPU, RAM и версии UEFI/Shell на главном экране**
-7. **EDK2 обновлён до основы спецификации UEFI 2.11**
+7. **EDK2 обновлён до `edk2-stable202608` (отображаемый уровень UEFI 2.70)**
 8. **Инструменты релизной сборки обновлены до GCC 15.3.Rel1, Python 3.14.7 и GNU Make 4.4.1**
 
 Готовый образ: [`firmware/RPI_EFI.fd`](firmware/RPI_EFI.fd). В GitHub Releases используется то же обязательное имя: `RPI_EFI.fd`.
 
-Версия 0.2.7 использует автоматический выбор Device Tree и проверена загрузкой на Raspberry Pi 5, которые определяются как BCM2712 C1 и D0. Это не отдельный образ только для D0. Прошивка сообщает UEFI 2.11; протокол UEFI Shell остаётся версии 2.2.
+Версия 0.2.8 сохраняет автоматический выбор Device Tree, ранее проверенный на Raspberry Pi 5 с BCM2712 C1 и D0; это не отдельный образ только для D0. Новая передача MAC через GEM SA1 проверена на плате D0 с ESXi-Arm и драйвером RP1 GEM v0.243. Прошивка сообщает UEFI 2.70; протокол UEFI Shell остаётся версии 2.2.
 
 ### Статус проверки
 
@@ -209,6 +211,7 @@ The original documentation in this repository is licensed under [`BSD-2-Clause-P
 | Сохранение настроек UEFI | **Проверено** | Настройки переживают перезагрузку и полное снятие питания после штатного reset/boot |
 | Отображение температуры SoC | **Проверено** | Температура BCM2712 обновляется каждые 5 секунд без сброса фокуса меню |
 | ACPI-ресурсы RP1 Ethernet | **Проверено** | GEM `RPI0001` и отдельная диагностика GPIO `RPI0002` |
+| Передача заводского MAC Ethernet | **Проверено** | MAC платы записывается в GEM SA1 для драйвера RP1 GEM ESXi |
 | Постоянные RX и TX | **Проверено** | Отдельный экспериментальный драйвер ESXi `RP1_GEM` на этой ACPI-разметке |
 
 Прошивка публикует аппаратные ресурсы, необходимые драйверу ESXi. Обработка пакетов реализована отдельным экспериментальным драйвером ESXi, а не UEFI.
@@ -220,6 +223,7 @@ The original documentation in this repository is licensed under [`BSD-2-Clause-P
 - сохранена рабочая ACPI-разметка RP1 Ethernet из проверенной сборки v0.8;
 - контроллер GEM публикуется как `RPI0001`: один MMIO-диапазон `RP1_ETH_BASE` размером `0x10000` и прерывание;
 - диагностический GPIO-диапазон вынесен в отдельное устройство `RPI0002`: `RP1_IO_BANK0_BASE` размером `0x30000`;
+- заводской MAC платы читается через firmware-протокол Raspberry Pi и записывается в GEM SA1 до запуска ESXi;
 - реализация вентилятора изолирована от Ethernet: она не меняет ACPI-сетевую часть, тактирование Ethernet, GPIO32, GEM или PHY.
 
 Прошивка также публикует `FANC` / `RPI0003` с узкими ресурсами mailbox,
@@ -271,7 +275,7 @@ The original documentation in this repository is licensed under [`BSD-2-Clause-P
 
 #### Идентификация BIOS
 
-- техническое значение версии из Git заменено в SMBIOS Type 0 на понятную строку `RPI UEFI v0.2.7 [Soulveig Edition]`;
+- техническое значение версии из Git заменено в SMBIOS Type 0 на понятную строку `RPI UEFI v0.2.8 [Soulveig Edition]`;
 - версия релиза стала единым источником для этого поля, поэтому следующие сборки автоматически получат строку `RPI UEFI v<версия> [Soulveig Edition]`.
 
 #### Строки идентификации платы
