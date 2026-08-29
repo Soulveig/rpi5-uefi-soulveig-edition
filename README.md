@@ -31,12 +31,12 @@ UEFI firmware for Raspberry Pi 5, tested with VMware ESXi Arm and a Waveshare Po
 4. **Release-aware SMBIOS BIOS version**
 5. **SoC temperature on the UEFI main screen**
 6. **Board revision, SoC stepping, serial number, EEPROM date, CPU, RAM and UEFI/Shell versions on the main screen**
-7. **EDK2 updated to `edk2-stable202608` (reported UEFI level 2.70)**
+7. **EDK2 updated to `edk2-stable202608` (reported UEFI level 2.11)**
 8. **Release build tools updated to GCC 15.3.Rel1, Python 3.14.7 and GNU Make 4.4.1**
 
 Ready-to-use image: [`firmware/RPI_EFI.fd`](firmware/RPI_EFI.fd). GitHub Releases use the same required filename: `RPI_EFI.fd`.
 
-Version 0.2.9 retains the automatic Device Tree selection previously tested on Raspberry Pi 5 boards reporting both BCM2712 C1 and D0; it is not a D0-only image. The GEM SA1 factory-MAC handoff and the restored `FANC` / `RPI0003` ACPI interface were verified on a D0 board with ESXi-Arm, RP1 GEM v0.243 and `rpitherm` v0.5.0-3. The firmware reports UEFI 2.70; the UEFI Shell protocol remains 2.2.
+Version 0.3.0 retains the automatic Device Tree selection previously tested on Raspberry Pi 5 boards reporting both BCM2712 C1 and D0; it is not a D0-only image. The GEM SA1 factory-MAC handoff and the restored `FANC` / `RPI0003` ACPI interface were verified on a D0 board with ESXi-Arm, RP1 GEM v0.243 and `rpitherm` v0.5.0-3. The firmware reports UEFI 2.11; ESXi displays the encoded revision as `UEFI v2.110`. The UEFI Shell protocol remains 2.2.
 
 ### Validation status
 
@@ -117,7 +117,7 @@ Settings are committed to the writable `RPI_EFI.fd` backing file and were verifi
 
 #### BIOS identification
 
-- changes the SMBIOS Type 0 BIOS version from a technical Git-derived value to the human-readable `RPI UEFI v0.2.9 [Soulveig Edition]`;
+- changes the SMBIOS Type 0 BIOS version from a technical Git-derived value to the human-readable `RPI UEFI v0.3.0 [Soulveig Edition]`;
 - makes the release version the single source for this field, so future builds automatically use `RPI UEFI v<version> [Soulveig Edition]`.
 
 #### Board identification banner
@@ -189,12 +189,12 @@ The original documentation in this repository is licensed under [`BSD-2-Clause-P
 4. **Версия BIOS в SMBIOS, соответствующая релизу**
 5. **Температура SoC на главном экране UEFI**
 6. **Ревизия платы, stepping SoC, серийный номер, дата EEPROM, CPU, RAM и версии UEFI/Shell на главном экране**
-7. **EDK2 обновлён до `edk2-stable202608` (отображаемый уровень UEFI 2.70)**
+7. **EDK2 обновлён до `edk2-stable202608` (отображаемый уровень UEFI 2.11)**
 8. **Инструменты релизной сборки обновлены до GCC 15.3.Rel1, Python 3.14.7 и GNU Make 4.4.1**
 
 Готовый образ: [`firmware/RPI_EFI.fd`](firmware/RPI_EFI.fd). В GitHub Releases используется то же обязательное имя: `RPI_EFI.fd`.
 
-Версия 0.2.9 сохраняет автоматический выбор Device Tree, ранее проверенный на Raspberry Pi 5 с BCM2712 C1 и D0; это не отдельный образ только для D0. Передача заводского MAC через GEM SA1 и восстановленный ACPI-интерфейс `FANC` / `RPI0003` проверены на плате D0 с ESXi-Arm, RP1 GEM v0.243 и `rpitherm` v0.5.0-3. Прошивка сообщает UEFI 2.70; протокол UEFI Shell остаётся версии 2.2.
+Версия 0.3.0 сохраняет автоматический выбор Device Tree, ранее проверенный на Raspberry Pi 5 с BCM2712 C1 и D0; это не отдельный образ только для D0. Передача заводского MAC через GEM SA1 и восстановленный ACPI-интерфейс `FANC` / `RPI0003` проверены на плате D0 с ESXi-Arm, RP1 GEM v0.243 и `rpitherm` v0.5.0-3. Прошивка сообщает UEFI 2.11; ESXi отображает закодированную ревизию как `UEFI v2.110`. Протокол UEFI Shell остаётся версии 2.2.
 
 ### Статус проверки
 
@@ -275,7 +275,7 @@ The original documentation in this repository is licensed under [`BSD-2-Clause-P
 
 #### Идентификация BIOS
 
-- техническое значение версии из Git заменено в SMBIOS Type 0 на понятную строку `RPI UEFI v0.2.9 [Soulveig Edition]`;
+- техническое значение версии из Git заменено в SMBIOS Type 0 на понятную строку `RPI UEFI v0.3.0 [Soulveig Edition]`;
 - версия релиза стала единым источником для этого поля, поэтому следующие сборки автоматически получат строку `RPI UEFI v<версия> [Soulveig Edition]`.
 
 #### Строки идентификации платы
