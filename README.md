@@ -36,7 +36,7 @@ UEFI firmware for Raspberry Pi 5, tested with VMware ESXi Arm and a Waveshare Po
 
 Ready-to-use image: [`firmware/RPI_EFI.fd`](firmware/RPI_EFI.fd). GitHub Releases use the same required filename: `RPI_EFI.fd`.
 
-Version 0.2.8 retains the automatic Device Tree selection previously tested on Raspberry Pi 5 boards reporting both BCM2712 C1 and D0; it is not a D0-only image. The new GEM SA1 MAC handoff was verified on a D0 board with ESXi-Arm and the RP1 GEM v0.243 driver. The firmware reports UEFI 2.70; the UEFI Shell protocol remains 2.2.
+Version 0.2.9 retains the automatic Device Tree selection previously tested on Raspberry Pi 5 boards reporting both BCM2712 C1 and D0; it is not a D0-only image. The GEM SA1 factory-MAC handoff and the restored `FANC` / `RPI0003` ACPI interface were verified on a D0 board with ESXi-Arm, RP1 GEM v0.243 and `rpitherm` v0.5.0-3. The firmware reports UEFI 2.70; the UEFI Shell protocol remains 2.2.
 
 ### Validation status
 
@@ -117,7 +117,7 @@ Settings are committed to the writable `RPI_EFI.fd` backing file and were verifi
 
 #### BIOS identification
 
-- changes the SMBIOS Type 0 BIOS version from a technical Git-derived value to the human-readable `RPI UEFI v0.2.8 [Soulveig Edition]`;
+- changes the SMBIOS Type 0 BIOS version from a technical Git-derived value to the human-readable `RPI UEFI v0.2.9 [Soulveig Edition]`;
 - makes the release version the single source for this field, so future builds automatically use `RPI UEFI v<version> [Soulveig Edition]`.
 
 #### Board identification banner
@@ -194,7 +194,7 @@ The original documentation in this repository is licensed under [`BSD-2-Clause-P
 
 Готовый образ: [`firmware/RPI_EFI.fd`](firmware/RPI_EFI.fd). В GitHub Releases используется то же обязательное имя: `RPI_EFI.fd`.
 
-Версия 0.2.8 сохраняет автоматический выбор Device Tree, ранее проверенный на Raspberry Pi 5 с BCM2712 C1 и D0; это не отдельный образ только для D0. Новая передача MAC через GEM SA1 проверена на плате D0 с ESXi-Arm и драйвером RP1 GEM v0.243. Прошивка сообщает UEFI 2.70; протокол UEFI Shell остаётся версии 2.2.
+Версия 0.2.9 сохраняет автоматический выбор Device Tree, ранее проверенный на Raspberry Pi 5 с BCM2712 C1 и D0; это не отдельный образ только для D0. Передача заводского MAC через GEM SA1 и восстановленный ACPI-интерфейс `FANC` / `RPI0003` проверены на плате D0 с ESXi-Arm, RP1 GEM v0.243 и `rpitherm` v0.5.0-3. Прошивка сообщает UEFI 2.70; протокол UEFI Shell остаётся версии 2.2.
 
 ### Статус проверки
 
@@ -275,7 +275,7 @@ The original documentation in this repository is licensed under [`BSD-2-Clause-P
 
 #### Идентификация BIOS
 
-- техническое значение версии из Git заменено в SMBIOS Type 0 на понятную строку `RPI UEFI v0.2.8 [Soulveig Edition]`;
+- техническое значение версии из Git заменено в SMBIOS Type 0 на понятную строку `RPI UEFI v0.2.9 [Soulveig Edition]`;
 - версия релиза стала единым источником для этого поля, поэтому следующие сборки автоматически получат строку `RPI UEFI v<версия> [Soulveig Edition]`.
 
 #### Строки идентификации платы
